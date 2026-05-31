@@ -1,134 +1,270 @@
-# 🛰️ Starlink Usage Scraper & Dashboard
+# 🚀 Starlink Usage Dashboard
 
-A Python-based web application that scrapes your Starlink account usage data and presents it in a clean, modern dashboard focused on residential data usage and simplified CSV export.
+A modern data-monitoring platform built for Starlink subscribers that automatically collects, analyzes, and visualizes internet usage statistics through an intuitive web dashboard.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue) ![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-green) ![Playwright](https://img.shields.io/badge/Playwright-1.48+-purple)
+---
 
-## Features
+## 📖 Overview
 
-- **Automated Scraping** — Uses Playwright to scrape usage data from your Starlink account
-- **Network Interception** — Captures internal API responses (more resilient than DOM scraping)
-- **Interactive Dashboard** — Dark-themed UI with real-time charts and data tables
-- **Daily & Monthly Analytics** — Line charts, bar charts, and summary statistics
-- **Searchable Data Table** — Sort, search, and paginate through all usage records
-- **CSV Export** — Download a CSV file with only `Date` and `Residential Data (GB)` columns
-- **Session Persistence** — Log in once, sessions are saved for subsequent runs
-- **Multi-Month Scraping** — Automatically navigates through all available months
+Starlink Usage Dashboard automates the process of gathering bandwidth consumption data from your Starlink account. Instead of manually checking usage reports, the application retrieves data automatically and presents it through interactive charts, analytics, and exportable reports.
 
-## Tech Stack
+The scraper utilizes Playwright's network monitoring capabilities to capture usage information directly from Starlink's backend responses, resulting in greater reliability compared to traditional page scraping methods.
 
-| Component | Technology |
-|-----------|------------|
-| Backend | Python, FastAPI, Uvicorn |
-| Scraping | Playwright (Chromium) |
-| Database | SQLite (via aiosqlite) |
-| Frontend | HTML5, CSS3, JavaScript |
-| Charts | Chart.js |
+---
 
-## Project Structure
+## ✨ Highlights
 
+### 🔐 Smart Authentication
+
+* One-time login process
+* Persistent session storage
+* Automatic session reuse
+* Re-authentication only when required
+
+### 📡 Automated Data Collection
+
+* Playwright-powered browser automation
+* Network request interception
+* Multi-month historical retrieval
+* Background scraping support
+
+### 📊 Advanced Analytics
+
+* Daily consumption tracking
+* Monthly trend analysis
+* Usage summaries and insights
+* Interactive visual reports
+
+### 📁 Data Export
+
+* Lightweight CSV generation
+* Residential usage-focused output
+* Quick download functionality
+
+### 🎨 Modern Interface
+
+* Responsive design
+* Dark-mode inspired theme
+* Real-time dashboard updates
+* Searchable and sortable tables
+
+---
+
+## 🏗️ Architecture
+
+```text
+┌─────────────────┐
+│  Starlink Web   │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ Playwright Bot  │
+│ Network Capture │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ FastAPI Backend │
+└────────┬────────┘
+         │
+ ┌───────┴────────┐
+ ▼                ▼
+SQLite       Dashboard UI
+Database     Charts & Stats
 ```
-Starlink_Scraper/
-├── backend/              # FastAPI application
-│   ├── app.py            # App entry point & static serving
-│   ├── config.py         # Environment settings
-│   ├── database.py       # SQLite async operations
-│   ├── models.py         # Pydantic data models
-│   └── routes/           # API endpoints
-│       ├── data.py       # Usage data & CSV export
-│       └── scraper.py    # Scraper controls
-├── scraper/              # Playwright scraping engine
-│   ├── browser.py        # Browser lifecycle management
-│   ├── auth.py           # Authentication & sessions
-│   ├── extractor.py      # Data extraction & parsing
-│   └── tasks.py          # Async scraping orchestrator
-├── frontend/             # Web dashboard
-│   ├── index.html        # Main page
-│   ├── css/style.css     # Starlink-inspired dark theme
-│   └── js/               # Application modules
-├── data/                 # Database & sessions (gitignored)
-├── .env.example          # Config template
-├── requirements.txt      # Python dependencies
-└── run.py                # Startup script
+
+---
+
+## 🛠 Technology Stack
+
+| Layer         | Tools                 |
+| ------------- | --------------------- |
+| Backend API   | FastAPI, Uvicorn      |
+| Automation    | Playwright            |
+| Storage       | SQLite, aiosqlite     |
+| Frontend      | HTML, CSS, JavaScript |
+| Visualization | Chart.js              |
+| Language      | Python 3.10+          |
+
+---
+
+## 📂 Repository Layout
+
+```text
+Starlink_Scraper
+│
+├── backend/
+│   ├── app.py
+│   ├── config.py
+│   ├── database.py
+│   ├── models.py
+│   └── routes/
+│
+├── scraper/
+│   ├── auth.py
+│   ├── browser.py
+│   ├── extractor.py
+│   └── tasks.py
+│
+├── frontend/
+│   ├── index.html
+│   ├── css/
+│   └── js/
+│
+├── data/
+├── .env.example
+├── requirements.txt
+└── run.py
 ```
 
-## Setup & Installation
+---
 
-### Prerequisites
-- Python 3.10 or higher
-- pip package manager
+## ⚡ Quick Start
 
-### 1. Clone & Navigate
+### Requirements
+
+* Python 3.10+
+* Pip
+* Chromium Browser (via Playwright)
+
+### Installation
+
+#### Clone the Project
+
 ```bash
+git clone <repository-url>
 cd Starlink_Scraper
 ```
 
-### 2. Create Virtual Environment (Recommended)
+#### Create Virtual Environment
+
 ```bash
 python -m venv venv
-venv\Scripts\activate      # Windows
-# source venv/bin/activate # macOS/Linux
 ```
 
-### 3. Install Dependencies
+Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+Linux/macOS:
+
+```bash
+source venv/bin/activate
+```
+
+#### Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Install Playwright Browser
+#### Install Browser Engine
+
 ```bash
 playwright install chromium
 ```
 
-### 5. Configure Environment
+#### Configure Environment
+
 ```bash
-copy .env.example .env     # Windows
-# cp .env.example .env     # macOS/Linux
+copy .env.example .env
 ```
 
-Edit `.env` and update `STARLINK_URL` with your account's usage page URL.
+Update:
 
-### 6. Run the Application
+```env
+STARLINK_URL=YOUR_STARLINK_USAGE_PAGE
+```
+
+#### Launch Application
+
 ```bash
 python run.py
 ```
 
-The dashboard will be available at **http://127.0.0.1:8000**
+Access the dashboard:
 
-## First-Time Login
+```text
+http://127.0.0.1:8000
+```
 
-1. Click **"Start Scraping"** on the dashboard
-2. A Chromium browser window will open automatically
-3. Log in to your Starlink account in that window
-4. Once logged in, the app will detect it and save your session
-5. The browser will close and scraping begins in headless mode
-6. Subsequent runs will reuse the saved session (no login needed)
+---
 
-> **Note:** If your session expires, the app will prompt you to log in again.
+## 🔑 First Login Workflow
 
-## API Endpoints
+1. Open the dashboard.
+2. Press **Start Scraping**.
+3. A Chromium browser window will appear.
+4. Sign in to your Starlink account.
+5. Session data is automatically saved.
+6. Scraping continues in headless mode.
+7. Future runs use the saved session automatically.
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/usage/daily?month=YYYY-MM` | Daily usage (filterable) |
-| `GET` | `/api/usage/monthly` | Monthly aggregated stats |
-| `GET` | `/api/usage/all` | All usage records |
-| `GET` | `/api/usage/summary` | Dashboard overview stats |
-| `GET` | `/api/export/csv` | Download CSV containing only date and residential usage |
-| `POST` | `/api/scrape/start` | Start scraping job |
-| `GET` | `/api/scrape/status` | Current scrape status |
-| `POST` | `/api/scrape/stop` | Cancel running scrape |
-| `GET` | `/api/scrape/history` | Past scrape runs |
+---
 
-## Troubleshooting
+## 📊 Available Endpoints
 
-| Issue | Solution |
-|-------|----------|
-| **"Authentication failed"** | Delete `data/session/` folder and restart scraping to re-login |
-| **No data extracted** | The Starlink page structure may have changed; check logs for details |
-| **Playwright not found** | Run `playwright install chromium` |
-| **Port 8000 in use** | Change `PORT` in `.env` to another port |
+### Usage Data
 
-## License
+| Endpoint             | Purpose           |
+| -------------------- | ----------------- |
+| `/api/usage/daily`   | Daily statistics  |
+| `/api/usage/monthly` | Monthly summaries |
+| `/api/usage/all`     | Complete dataset  |
+| `/api/usage/summary` | Dashboard metrics |
 
-This project is for personal use only. Starlink is a trademark of SpaceX.
+### Scraper Controls
+
+| Endpoint              | Purpose            |
+| --------------------- | ------------------ |
+| `/api/scrape/start`   | Start scraper      |
+| `/api/scrape/status`  | Check progress     |
+| `/api/scrape/stop`    | Stop running task  |
+| `/api/scrape/history` | View previous jobs |
+
+### Export
+
+| Endpoint          | Purpose            |
+| ----------------- | ------------------ |
+| `/api/export/csv` | Download usage CSV |
+
+---
+
+## 🧰 Common Fixes
+
+### Session Problems
+
+Delete the saved session folder and authenticate again:
+
+```text
+data/session/
+```
+
+### Browser Missing
+
+```bash
+playwright install chromium
+```
+
+### Empty Results
+
+Check application logs. Starlink may have changed internal page structures or API responses.
+
+### Port Conflict
+
+Modify the port in your `.env` file:
+
+```env
+PORT=8080
+```
+
+---
+
+## 📄 Disclaimer
+
+This project is an independent utility created for personal data monitoring and analysis. It is not affiliated with, endorsed by, or maintained by SpaceX or Starlink.
+
+Starlink® is a registered trademark of SpaceX.
